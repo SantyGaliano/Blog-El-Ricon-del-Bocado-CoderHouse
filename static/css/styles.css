@@ -1,0 +1,152 @@
+/* --------- Variables de color y tipografía --------- */
+:root {
+  --color-bg:    #222; /* fondo global y del footer */
+  --color-text:  #e6e6e6; /* texto claro para fondo oscuro */
+  --color-primary:   #ff7e5f;
+  --color-secondary: #feb47b;
+  --font-base: 'Nunito', sans-serif;
+}
+
+/* --------- Reset general y layout --------- */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: var(--color-bg);   /* fondo gris oscuro global */
+  color: var(--color-text);            /* texto claro */
+  font-family: var(--font-base);
+}
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* --------- Contenedor principal (empuja footer abajo) --------- */
+.content-container {
+  flex: 1;
+  padding-top: 100px; /* espacio para navbar */
+}
+
+/* --------- Navbar --------- */
+.navbar-custom {
+  height: 80px;
+  background-color: rgba(0,0,0,0.4);
+  transition: background-color 0.3s;
+}
+.navbar-custom.scrolled {
+  background-color: rgba(0,0,0,0.6);
+}
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+  line-height: 80px;
+  color: #fff;
+}
+.navbar-brand img {
+  height: 175px;
+  margin-top: -10px;
+  object-fit: contain;
+}
+
+/* Menú izquierdo */
+.left-nav .nav-item + .nav-item {
+  margin-left: 2rem;
+}
+
+/* Menú login/logout (derecha) */
+.login-nav {
+  margin-left: auto;
+  margin-right: 10px;        /* ajusta para acercar/alejar */
+}
+.login-nav .nav-item {
+  margin-left: 0;
+}
+
+/* Avatar en navbar */
+.avatar-nav {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+}
+.avatar-link { padding: 0; }
+
+/* Logout como link */
+.login-nav form button {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.8);
+  cursor: pointer;
+}
+.login-nav form button:hover { color: #fff; }
+
+/* --------- Hero --------- */
+.hero {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  overflow: hidden;
+}
+.hero video {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 1;
+}
+.hero .hero-content {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  padding-top: 80px;
+}
+
+/* --------- Cards --------- */
+.card {
+  background-color: #303030;        /* un gris más claro sobre fondo oscuro */
+  border: none;
+  border-radius: .75rem;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.25);
+  transition: transform .3s;
+  color: var(--color-text);
+}
+.card:hover { transform: translateY(-5px); }
+
+/* --------- Botones --------- */
+.btn-primary {
+  background-image: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
+  border: none;
+}
+.btn-outline-secondary {
+  border-radius: .5rem;
+  color: var(--color-text);
+  border-color: var(--color-text);
+}
+.btn-outline-secondary:hover {
+  background-color: var(--color-text);
+  color: var(--color-bg);
+}
+
+/* --------- Footer --------- */
+.footer {
+  background-color: var(--color-bg); /* mismo color que el fondo global */
+  color: var(--color-text);          /* texto claro visible */
+  padding: 2rem 0;
+  margin-top: 2rem;
+}
+.footer a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+.footer a:hover {
+  color: #fff;
+  text-decoration: underline;
+}

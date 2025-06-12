@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{{ recipe.name }}{% endblock %}
+
+{% block content %}
+<article>
+  <h1>{{ recipe.name }}</h1>
+  <p><em>Dificultad: {{ recipe.difficulty }}</em></p>
+
+  {% if recipe.image %}
+    <img src="{{ recipe.image.url }}" class="img-fluid mb-3" alt="{{ recipe.name }}">
+  {% endif %}
+
+  <div>{{ recipe.instructions|safe }}</div>
+</article>
+
+{% if user.is_authenticated %}
+  <a href="{% url 'recipe-update' recipe.pk %}" class="btn btn-warning mt-3">Editar</a>
+  <a href="{% url 'recipe-delete' recipe.pk %}" class="btn btn-danger mt-3">Borrar</a>
+{% endif %}
+{% endblock %}

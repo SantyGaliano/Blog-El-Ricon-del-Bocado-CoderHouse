@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Receta{% endblock %}
+
+{% block content %}
+<h2>Confirmar borrado</h2>
+<p>¿Seguro que deseas eliminar “{{ object.name }}”?</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+  <a href="{% url 'recipe-detail' object.pk %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}
