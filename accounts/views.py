@@ -9,13 +9,12 @@ from django.contrib.auth.forms import AuthenticationForm
 
 from .forms import SignupForm, UserForm, UserProfileForm
 
-# Vista para registro individual (puedes conservarla o quitarla si no la usas):
+
 class SignupView(CreateView):
     form_class    = SignupForm
     template_name = 'accounts/signup.html'
     success_url   = reverse_lazy('login')
 
-# Vistas de perfil
 @login_required
 def profile_view(request):
     return render(request, 'accounts/profile.html')
@@ -40,12 +39,12 @@ def profile_edit_view(request):
         'profile_form': profile_form,
     })
 
-# Cambio de contraseña
+
 class CustomPasswordChangeView(PasswordChangeView):
     template_name = 'accounts/profile_form.html'
     success_url   = reverse_lazy('profile')
 
-# Vista combinada de Login + Signup
+
 class AuthView(View):
     template_name = 'accounts/auth.html'
 

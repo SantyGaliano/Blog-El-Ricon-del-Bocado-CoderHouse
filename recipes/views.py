@@ -5,22 +5,22 @@ from django.views.generic import (
     CreateView, UpdateView, DeleteView
 )
 from django.urls import reverse_lazy
-
 from .models import Recipe
 from .forms import RecipeForm
 
 
-# --------- PORTADA ---------
 class HomeView(TemplateView):
     template_name = 'recipes/home.html'
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx['recipes'] = Recipe.objects.order_by('-created_at')[:4]
+        
+        ctx['recipes']   = Recipe.objects.order_by('-created_at')[:4]
+       
+        ctx['novedades'] = Recipe.objects.order_by('-created_at')[:8]
         return ctx
 
 
-# --------- CRUD de Recetas ---------
 class RecipeListView(ListView):
     model               = Recipe
     template_name       = 'recipes/recipe_list.html'
