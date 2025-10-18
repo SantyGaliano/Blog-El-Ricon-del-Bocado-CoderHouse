@@ -1,13 +1,19 @@
 from django.urls import path
-from .views import (
-    RecipeListView, RecipeDetailView,
-    RecipeCreateView, RecipeUpdateView, RecipeDeleteView
-)
+from django.views.generic import TemplateView
+
+# Importá tus vistas reales de recipes
+# (HomeView ya aparece en el traceback, y RecipeListView seguramente existe en tu app)
+from .views import HomeView, RecipeListView
+
+app_name = "recipes"
 
 urlpatterns = [
-    path('',              RecipeListView.as_view(),  name='recipe-list'),
-    path('<int:pk>/',     RecipeDetailView.as_view(), name='recipe-detail'),
-    path('create/',       RecipeCreateView.as_view(), name='recipe-create'),
-    path('<int:pk>/update/', RecipeUpdateView.as_view(), name='recipe-update'),
-    path('<int:pk>/delete/', RecipeDeleteView.as_view(), name='recipe-delete'),
+    # Home (raíz del sitio)
+    path("", HomeView.as_view(), name="home"),
+
+    # About (usa el template 'about.html' que vos ya tenés en /templates/about.html)
+    path("about/", TemplateView.as_view(template_name="about.html"), name="about"),
+
+    # Listado de recetas (coincide con {% url 'recipe-list' %})
+    path("recipes/", RecipeListView.as_view(), name="recipe-list"),
 ]

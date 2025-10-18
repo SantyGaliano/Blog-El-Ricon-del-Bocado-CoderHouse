@@ -1,162 +1,127 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Iniciar sesión / Registrarse{% endblock %}
+{% block title %}Acceso | El Rincón del Bocado{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
 <style>
-  /* Reset margin and padding */
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+  .auth-card {
+    max-width: 420px;
+    margin: 2rem auto;
   }
-  /* Full-screen background image */
-  body {
-    position: relative;
-    background: url("{% static 'images/fuego.jpg' %}") no-repeat center center fixed;
-    background-size: cover;
+  .field-error {
+    color: #ffdddd;
+    font-size: .875rem;
+    margin-top: .25rem;
   }
-  /* Dark overlay to reduce brightness */
-  body::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.5); /* Darken background */
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    z-index: 1;
+  .non-field-error {
+    color: #ffd4a3;
+    margin-bottom: .75rem;
   }
-  /* Hide default content wrapper and footer */
-  .content-container,
-  .footer {
-    display: none !important;
-  }
-  /* Center form container */
-  .auth-wrapper {
-    position: relative;
-    z-index: 2;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 2rem;
-    background: transparent !important;
-  }
-  /* Transparent form box */
-  #container {
-    position: relative;
-    z-index: 3;
-    width: 768px;
-    max-width: 90%;
-    background: transparent;
-    border-radius: 16px;
-    overflow: hidden;
-  }
-  /* Form sections positioning */
-  .form-container {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    transition: all .6s ease-in-out;
-  }
-  .sign-in-container { left: 0; width: 50%; z-index: 2; }
-  .sign-up-container { left: 0; width: 50%; opacity: 0; z-index: 1; }
-  /* Overlay panel styling */
-  .overlay-container {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 50%;
-    height: 100%;
-    overflow: hidden;
-    transition: transform .6s ease-in-out;
-    z-index: 100;
-  }
-  .overlay {
-    background: linear-gradient(to right, #FF4B2B, #FF416C);
-    color: #fff;
-    position: relative;
-    left: -100%;
-    width: 200%;
-    height: 100%;
-    transform: translateX(0);
-    transition: transform .6s ease-in-out;
-  }
-  .overlay-panel {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0 40px;
-    text-align: center;
-    top: 0;
-    height: 100%;
-    width: 50%;
-    transition: transform .6s ease-in-out;
-  }
-  .overlay-left  { transform: translateX(-20%); }
-  .overlay-right { right: 0; transform: translateX(0); }
 </style>
 {% endblock %}
 
-{% block fullwidth_content %}
-<div class="auth-wrapper">
-  <div id="container">
-    <div class="form-container sign-up-container">
-      <form method="post">
-        {% csrf_token %}
-        <h1>Crea tu cuenta</h1>
-        <span>o usa tu email para registrarte</span>
-        {{ signup_form.non_field_errors }}
-        {% for field in signup_form %}
-          {{ field }}
-          {% if field.errors %}
-            <div class="text-danger w-100">{{ field.errors|striptags }}</div>
-          {% endif %}
-        {% endfor %}
-        <button type="submit" name="signup">Sign Up</button>
-      </form>
-    </div>
-    <div class="form-container sign-in-container">
-      <form method="post">
-        {% csrf_token %}
-        <h1>Inicia sesión</h1>
-        <span>o usa tu cuenta</span>
-        {{ login_form.non_field_errors }}
-        {% for field in login_form %}
-          {{ field }}
-          {% if field.errors %}
-            <div class="text-danger w-100">{{ field.errors|striptags }}</div>
-          {% endif %}
-        {% endfor %}
-        <a href="#">¿Olvidaste tu contraseña?</a>
-        <button type="submit" name="login">Sign In</button>
-      </form>
-    </div>
-    <div class="overlay-container">
-      <div class="overlay">
-        <div class="overlay-panel overlay-left">
-          <h1>¡Bienvenido de nuevo!</h1>
-          <p>Para mantenerte conectado, inicia sesión con tu información personal</p>
-          <button type="button" class="ghost" id="signIn">Sign In</button>
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+      <div class="row g-4">
+
+        <!-- Columna de LOGIN -->
+        <div class="col-12 col-md-6">
+          <div class="card bg-dark text-light auth-card shadow">
+            <div class="card-body p-4">
+              <h2 class="h4 mb-3">Iniciar sesión</h2>
+
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="alert alert-{{ message.tags }} mb-2" role="alert">{{ message }}</div>
+                {% endfor %}
+              {% endif %}
+
+              {% if login_form.non_field_errors %}
+                <div class="non-field-error">{{ login_form.non_field_errors }}</div>
+              {% endif %}
+
+              <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+                <input type="hidden" name="login" value="1">
+
+                {% for field in login_form %}
+                  <div class="form-floating mb-3">
+                    {{ field }}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {% if field.errors %}
+                      <div class="field-error">{{ field.errors|striptags }}</div>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <a href="#" class="link-light link-underline-opacity-0">¿Olvidaste tu contraseña?</a>
+              </div>
+
+                <button type="submit" class="btn btn-primary w-100 py-2">Entrar</button>
+              </form>
+            </div>
+          </div>
         </div>
-        <div class="overlay-panel overlay-right">
-          <h1>¡Hola, Amigo!</h1>
-          <p>Ingresa tus datos personales y comienza tu viaje con nosotros</p>
-          <button type="button" class="ghost" id="signUp">Sign Up</button>
+
+        <!-- Columna de REGISTRO -->
+        <div class="col-12 col-md-6">
+          <div class="card bg-dark text-light auth-card shadow">
+            <div class="card-body p-4">
+              <h2 class="h4 mb-3">Crear cuenta</h2>
+
+              {% if signup_form.non_field_errors %}
+                <div class="non-field-error">{{ signup_form.non_field_errors }}</div>
+              {% endif %}
+
+              <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+                <input type="hidden" name="signup" value="1">
+
+                {% for field in signup_form %}
+                  <div class="form-floating mb-3">
+                    {{ field }}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {% if field.help_text %}
+                      <div class="form-text text-secondary">{{ field.help_text|safe }}</div>
+                    {% endif %}
+                    {% if field.errors %}
+                      <div class="field-error">{{ field.errors|striptags }}</div>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+
+                <button type="submit" class="btn btn-success w-100 py-2">Registrarme</button>
+              </form>
+            </div>
+          </div>
         </div>
-      </div>
+
+      </div><!-- /row -->
     </div>
   </div>
 </div>
 {% endblock %}
 
-{% block content %}{% endblock %}
-
 {% block extra_js %}
-<script src="{% static 'js/auth.js' %}"></script>
+<script>
+  // Validación simple de Bootstrap (opcional)
+  (() => {
+    'use strict';
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+</script>
 {% endblock %}

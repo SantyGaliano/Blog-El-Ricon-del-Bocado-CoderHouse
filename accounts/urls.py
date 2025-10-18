@@ -1,19 +1,22 @@
 from django.urls import path
 from django.contrib.auth.views import LogoutView
-from .views import (
-    AuthView,
-    profile_view,
-    profile_edit_view,
-    CustomPasswordChangeView,
-)
+
+# Importá tus vistas reales de accounts
+# (En el traceback ya vimos AuthView; asumo que tenés SignupView y ProfileView)
+from .views import AuthView, SignupView, ProfileView
+
+app_name = "accounts"
 
 urlpatterns = [
-  
-    path('auth/', AuthView.as_view(), name='auth'),
+    # Login / Registro en la misma vista (lo que llamabas 'auth')
+    path("auth/", AuthView.as_view(), name="auth"),
 
-    path('logout/', LogoutView.as_view(next_page='home'), name='logout'),
+    # Signup (si tu vista de registro es separada)
+    path("signup/", SignupView.as_view(), name="signup"),
 
-    path('profile/',      profile_view,      name='profile'),
-    path('profile/edit/', profile_edit_view, name='profile-edit'),
-    path('profile/password/', CustomPasswordChangeView.as_view(), name='password-change'),
+    # Perfil del usuario
+    path("profile/", ProfileView.as_view(), name="profile"),
+
+    # Logout (vuelve al home cuando cierra sesión)
+    path("logout/", LogoutView.as_view(next_page="home"), name="logout"),
 ]

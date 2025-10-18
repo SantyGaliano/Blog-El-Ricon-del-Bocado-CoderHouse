@@ -1,75 +1,133 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Bienvenido{% endblock %}
-
-{% block extra_css %}
-<style>
-
-.typewriter {
-  --steps: 32;                
-  overflow: hidden;
-  white-space: nowrap;
-  border-right: .15em solid #fff;
-  animation: typing 4s steps(var(--steps)) forwards,
-  blink-caret .8s step-end infinite;
-}
-@keyframes typing { from { width: 0 } to { width: 100% } }
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50%      { border-color: #fff }
-}
-</style>
-{% endblock %}
+{% block title %}Inicio · El Rincón del Bocado{% endblock %}
 
 {% block fullwidth_content %}
-<section class="hero d-flex align-items-center justify-content-center">
-  <video autoplay muted loop playsinline preload="auto"
-         poster="{% static 'images/video-poster.jpg' %}" id="bg-video">
+<section class="hero-wrap" aria-label="Hero principal">
+  <!-- VIDEO de fondo -->
+  <video class="hero-video" autoplay muted loop playsinline>
     <source src="{% static 'videos/9020877-uhd_3840_2160_25fps.mp4' %}" type="video/mp4">
-    Tu navegador no soporta video HTML5.
   </video>
+  <div class="hero-grad-1"></div>
+  <div class="hero-grad-2"></div>
 
-  <div class="hero-content text-center px-3">
-    <h1 class="display-3 fw-bold typewriter">¡Descubre tus Recetas Favoritas!</h1>
-    <p class="lead mb-4">Comparte y explora recetas caseras fáciles y deliciosas.</p>
+  <!-- CONTENIDO -->
+  <div class="hero-inner">
+    <span class="hero-badge">
+      🍽️ Bienvenido • Comunidad de Recetas
+    </span>
 
-    <a href="{% url 'recipe-list' %}" class="btn btn-lg btn-primary me-2">Ver Recetas</a>
+    <h1 class="hero-title">
+      Donde los Sabores <span class="g">cobran vida</span>
+    </h1>
 
-    {% if user.is_authenticated %}
-      <a href="{% url 'recipe-create' %}" class="btn btn-lg btn-outline-light">Crear Receta</a>
-    {% else %}
-      <a href="{% url 'auth' %}" class="btn btn-lg btn-outline-light">Iniciar sesión</a>
-    {% endif %}
+    <p class="hero-desc">
+      Explora recetas extraordinarias de chefs y entusiastas de todo el mundo.
+      Aprende técnicas, comparte tus platos y descubre tu próxima favorita.
+    </p>
+
+    <div class="hero-actions">
+      <a href="{% url 'recipe-list' %}" class="btn-grad">Explorar Recetas →</a>
+
+      <!-- CTA NUEVO: ancla nativa + JS mejorado -->
+      <a id="ctaDiscover" class="cta-neo" href="#discover" role="button" data-tilt="1" aria-label="Descubrir más">
+        <span class="inner">
+          <span class="label">Descubrir más</span>
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Sección de destino para el scroll suave -->
+<section id="discover" class="py-5">
+  <div class="container">
+    <h2 class="mb-3 text-white">Descubre qué puedes hacer aquí</h2>
+    <p class="mb-4" style="color:rgba(255,255,255,.8)">Comparte tus recetas, guarda favoritas y aprende nuevas técnicas.</p>
+
+    <div class="features">
+      <div class="feature">
+        <div style="font-size:1.4rem">📸</div>
+        <h4>Fotos irresistibles</h4>
+        <p>Sube imágenes de tus platos y hacelos brillar con nuestra galería.</p>
+      </div>
+      <div class="feature">
+        <div style="font-size:1.4rem">🧑‍🍳</div>
+        <h4>Tu perfil culinario</h4>
+        <p>Crea tu bio, subí tu avatar y mostrá tu estilo en la cocina.</p>
+      </div>
+      <div class="feature">
+        <div style="font-size:1.4rem">🔎</div>
+        <h4>Búsquedas potentes</h4>
+        <p>Filtrá por nombre, dificultad o ingredientes para encontrar la receta perfecta.</p>
+      </div>
+    </div>
   </div>
 </section>
 {% endblock %}
 
-{% block content %}
-<div class="mt-5">
-  <h2 class="mb-4">Últimas Recetas</h2>
+{% block content %}{% endblock %}
 
-  <div class="row">
-    {% for recipe in recipes|slice:":4" %}
-      <div class="col-md-6 col-lg-3 mb-4">
-        <div class="card h-100 shadow-sm">
-          {% if recipe.image %}
-            <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.name }}">
-          {% endif %}
-          <div class="card-body">
-            <h5 class="card-title">{{ recipe.name }}</h5>
-            <p class="card-text"><strong>Dificultad:</strong> {{ recipe.difficulty }}</p>
-            <a href="{% url 'recipe-detail' recipe.pk %}" class="btn btn-sm btn-outline-primary">Ver más</a>
-          </div>
-        </div>
-      </div>
-    {% empty %}
-      <p>No hay recetas aún. <a href="{% url 'auth' %}">Sé el primero en crear una.</a></p>
-    {% endfor %}
-  </div>
+{% block extra_js %}
+<script>
+  (function(){
+    // Función para obtener offset dinámico (topbar + navbar)
+    const getFixedOffset = () => {
+      const topbar = document.getElementById('topbar');
+      const nav = document.querySelector('.navbar-custom');
+      const tb = topbar && getComputedStyle(topbar).display !== 'none' ? topbar.offsetHeight : 0;
+      const nh = nav ? nav.offsetHeight : 0;
+      return tb + nh + 8;
+    };
 
-  <div class="text-center mt-4">
-    <a href="{% url 'recipe-list' %}" class="btn btn-outline-secondary">Ver todas las recetas</a>
-  </div>
-</div>
+    // Smooth scroll del CTA con ripple y corrección por elementos fijos
+    const cta = document.getElementById('ctaDiscover');
+    if (cta){
+      cta.addEventListener('click', (e) => {
+        // ripple
+        const rect = cta.getBoundingClientRect();
+        const r = document.createElement('span');
+        r.className = 'ripple';
+        r.style.left = (e.clientX - rect.left) + 'px';
+        r.style.top  = (e.clientY - rect.top)  + 'px';
+        cta.appendChild(r);
+        setTimeout(()=>r.remove(), 650);
+
+        // scroll corregido
+        const href = cta.getAttribute('href') || '#discover';
+        if (href.startsWith('#')) {
+          const target = document.querySelector(href);
+          if (target){
+            e.preventDefault();
+            const offset = getFixedOffset();
+            const y = target.getBoundingClientRect().top + window.scrollY - offset;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+          }
+        }
+      });
+
+      // Efecto magnético / tilt sutil
+      if (cta.dataset.tilt === '1' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+        const strength = 10; // px
+        const onMove = (ev) => {
+          const r = cta.getBoundingClientRect();
+          const cx = r.left + r.width/2;
+          const cy = r.top  + r.height/2;
+          const dx = (ev.clientX - cx) / (r.width/2);
+          const dy = (ev.clientY - cy) / (r.height/2);
+          cta.style.transform = `translate(${dx*strength}px, ${dy*strength}px)`;
+        };
+        const reset = () => { cta.style.transform = 'translate(0,0)'; };
+        cta.addEventListener('pointermove', onMove);
+        cta.addEventListener('pointerleave', reset);
+        cta.addEventListener('blur', reset);
+      }
+    }
+  })();
+</script>
 {% endblock %}
