@@ -17,34 +17,74 @@
     <!-- Tipografías -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Estilos del sitio -->
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}?v=2025-10-18a">
-    <!-- Estilos del TopBar (Aurora) -->
-    <link rel="stylesheet" href="{% static 'css/topbar.css' %}?v=2025-10-18a">
+    <!-- Estilos globales del sitio -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}?v=2025-10-19b">
+    <!-- Estilos del TopBar minimal -->
+    <link rel="stylesheet" href="{% static 'css/topbar.css' %}?v=2025-10-19b">
 
     {% block extra_css %}{% endblock %}
   </head>
   <body>
-    <!-- Aurora Topbar v1.1 -->
-    <div id="topbar-aurora" class="topbar" aria-label="Anuncios rotativos">
+
+    <!-- TopBar Minimal 44px -->
+    <div id="topbar-min" role="region" aria-label="Anuncios">
       <div class="tb-bg tb-grad-0" id="tbBg"></div>
       <div class="tb-glass"></div>
+      <div class="tb-topline" aria-hidden="true"></div>
 
       <div class="tb-inner">
-        <!-- Centro: icono + frase -->
-        <div class="tb-text-wrap" id="tbTextWrap">
-          <span class="tb-icon" id="tbIcon" aria-hidden="true"></span>
-          <span class="tb-text" id="tbText">Nuevas recetas de temporada disponibles</span>
+        <!-- Izquierda: chevrons + dots -->
+        <div class="tb-left">
+          <button id="tbPrev" class="tb-chevron" aria-label="Anterior">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </button>
+
+          <div id="tbDots" class="tb-dots" aria-label="Navegación de anuncios"></div>
+
+          <button id="tbNext" class="tb-chevron" aria-label="Siguiente">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </button>
         </div>
 
-        <!-- Derecha: dots -->
-        <div class="tb-dots" id="tbDotsRight" aria-label="Navegación de anuncios"></div>
+        <!-- Centro: icono + título/descripcion (desktop) o solo título (mobile) -->
+        <div class="tb-center">
+          <div id="tbSlide" class="tb-slide">
+            <span class="tb-icon" id="tbIcon" aria-hidden="true"></span>
+
+            <div class="tb-texts tb-texts-desktop">
+              <span class="tb-title" id="tbTitle"></span>
+              <span class="tb-sep">·</span>
+              <span class="tb-desc" id="tbDesc"></span>
+            </div>
+
+            <div class="tb-texts tb-texts-mobile">
+              <span class="tb-title" id="tbTitleMobile"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Derecha: cerrar -->
+        <button id="tbClose" class="tb-close" aria-label="Cerrar">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6 6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </button>
       </div>
 
-      <div class="tb-bottom-glow" aria-hidden="true"></div>
+      <!-- Shimmer sutil -->
+      <div class="tb-shimmer" aria-hidden="true"></div>
+
+      <!-- Progress inferior 2px -->
+      <div class="tb-progress">
+        <div id="tbProgressBar" class="tb-progress-bar"></div>
+      </div>
     </div>
 
-    <!-- Navbar (debajo del topbar). Se ajusta con --topbar-h -->
+    <!-- Navbar fijo, desplazado bajo el topbar -->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top" style="top: var(--topbar-h);">
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'home' %}">
@@ -126,12 +166,10 @@
     </footer>
 
     <!-- Bootstrap JS -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-      defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
 
-    <!-- JS del TopBar -->
-    <script src="{% static 'js/topbar.js' %}?v=2025-10-18a" defer></script>
+    <!-- TopBar script -->
+    <script src="{% static 'js/topbar.js' %}?v=2025-10-19b" defer></script>
 
     {% block extra_js %}{% endblock %}
   </body>
