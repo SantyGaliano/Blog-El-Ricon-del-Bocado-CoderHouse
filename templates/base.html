@@ -2,46 +2,53 @@
 <!doctype html>
 <html lang="es">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>{% block title %}El Rincón del Bocado{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+    <title>{% block title %}El Rincón Del Bocado{% endblock %}</title>
 
-    <!-- Estilos centralizados (con cache-busting) -->
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}?v=20251017" />
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet">
+
+    <!-- Tipografías -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Estilos del sitio -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}?v=2025-10-18a">
+    <!-- Estilos del TopBar (Aurora) -->
+    <link rel="stylesheet" href="{% static 'css/topbar.css' %}?v=2025-10-18a">
 
     {% block extra_css %}{% endblock %}
   </head>
   <body>
-    <!-- =============== TOPBAR ROTATOR =============== -->
-    <div id="topbar" class="topbar" role="region" aria-label="Novedades">
-      <div id="tbBg" class="tb-bg tb-grad-0"></div>
-      <div class="tb-shimmer" aria-hidden="true"></div>
+    <!-- Aurora Topbar v1.1 -->
+    <div id="topbar-aurora" class="topbar" aria-label="Anuncios rotativos">
+      <div class="tb-bg tb-grad-0" id="tbBg"></div>
+      <div class="tb-glass"></div>
+
       <div class="tb-inner">
-        <div class="tb-badge">NUEVO</div>
-        <div class="tb-icon" aria-hidden="true">✨</div>
-        <div class="tb-text-wrap">
-          <div id="tbText" class="tb-text tb-enter">Bienvenido a El Rincón del Bocado — nuevas recetas cada semana.</div>
+        <!-- Centro: icono + frase -->
+        <div class="tb-text-wrap" id="tbTextWrap">
+          <span class="tb-icon" id="tbIcon" aria-hidden="true"></span>
+          <span class="tb-text" id="tbText">Nuevas recetas de temporada disponibles</span>
         </div>
-        <div id="tbDots" class="tb-dots" aria-hidden="true">
-          <span class="tb-dot active"></span>
-          <span class="tb-dot"></span>
-          <span class="tb-dot"></span>
-          <span class="tb-dot"></span>
-          <span class="tb-dot"></span>
-          <span class="tb-dot"></span>
-        </div>
+
+        <!-- Derecha: dots -->
+        <div class="tb-dots" id="tbDotsRight" aria-label="Navegación de anuncios"></div>
       </div>
+
       <div class="tb-bottom-glow" aria-hidden="true"></div>
     </div>
 
-    <!-- =============== NAVBAR (FIXED + GLASS) =============== -->
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+    <!-- Navbar (debajo del topbar). Se ajusta con --topbar-h -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top" style="top: var(--topbar-h);">
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'home' %}">
-          <img src="{% static 'images/El Rincón Del Bocado.png' %}" alt="El Rincón Del Bocado" height="32" />
+          <img src="{% static 'images/El Rincón Del Bocado.png' %}" alt="El Rincón Del Bocado" height="32">
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-label="Abrir menú">
@@ -51,16 +58,16 @@
         <div class="collapse navbar-collapse" id="navMenu">
           {% with current_url=request.resolver_match.url_name|default:'' %}
           <ul class="navbar-nav ms-auto nav-modern" id="navModern">
-            <!-- Barra activa deslizante -->
-            <i class="nav-active-indicator" aria-hidden="true"></i>
+            <i class="nav-active-underline" aria-hidden="true"></i>
 
             <li class="nav-item">
-              <a class="nav-link modern-link {% if current_url == 'home' or current_url == 'recipes:home' %}is-active{% endif %}"
+              <a class="nav-link modern-link {% if current_url == 'home' %}is-active{% endif %}"
                  href="{% url 'home' %}"
-                 aria-current="{% if current_url == 'home' or current_url == 'recipes:home' %}page{% endif %}">
+                 aria-current="{% if current_url == 'home' %}page{% endif %}">
                 Inicio
               </a>
             </li>
+
             <li class="nav-item">
               <a class="nav-link modern-link {% if current_url == 'about' %}is-active{% endif %}"
                  href="{% url 'about' %}"
@@ -68,10 +75,11 @@
                 Acerca de
               </a>
             </li>
+
             <li class="nav-item">
-              <a class="nav-link modern-link {% if current_url == 'recipe-list' or current_url == 'recipes:list' %}is-active{% endif %}"
+              <a class="nav-link modern-link {% if current_url == 'recipe-list' %}is-active{% endif %}"
                  href="{% url 'recipe-list' %}"
-                 aria-current="{% if current_url == 'recipe-list' or current_url == 'recipes:list' %}page{% endif %}">
+                 aria-current="{% if current_url == 'recipe-list' %}page{% endif %}">
                 Recetas
               </a>
             </li>
@@ -84,7 +92,7 @@
                   {% else %}
                     <img src="https://i.pravatar.cc/150?u={{ user.username }}" alt="{{ user.username }}" class="avatar-nav">
                   {% endif %}
-                  <span class="d-none d-lg-inline">Perfil</span>
+                  <span class="ms-2">{{ user.username }}</span>
                 </a>
               </li>
               <li class="nav-item">
@@ -94,9 +102,9 @@
               </li>
             {% else %}
               <li class="nav-item">
-                <a class="nav-link modern-link {% if current_url == 'auth' or current_url == 'accounts:auth' %}is-active{% endif %}"
+                <a class="nav-link modern-link {% if current_url == 'auth' %}is-active{% endif %}"
                    href="{% url 'auth' %}"
-                   aria-current="{% if current_url == 'auth' or current_url == 'accounts:auth' %}page{% endif %}">
+                   aria-current="{% if current_url == 'auth' %}page{% endif %}">
                   Iniciar sesión
                 </a>
               </li>
@@ -110,134 +118,20 @@
     {% block fullwidth_content %}{% endblock %}
 
     <div class="container content-container">
-      {% if messages %}
-        <div class="pt-3">
-          {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} mb-2" role="alert">{{ message }}</div>
-          {% endfor %}
-        </div>
-      {% endif %}
       {% block content %}{% endblock %}
     </div>
 
+    <footer class="py-5 text-center text-muted">
+      <small>&copy; {{ now|date:"Y" }} El Rincón Del Bocado — Cocina casera y comunidad</small>
+    </footer>
+
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      defer></script>
 
-    <!-- Señalamos que hay JS (oculta fallback de subrayado en desktop) -->
-    <script>document.body.classList.add('has-js');</script>
-
-    <!-- Topbar: lógica de rotación + seteo de --topbar-h -->
-    <script>
-      (function(){
-        const topbar   = document.getElementById('topbar');
-        const bg       = document.getElementById('tbBg');
-        const textNode = document.getElementById('tbText');
-        const dotsWrap = document.getElementById('tbDots');
-        const dots     = dotsWrap ? Array.from(dotsWrap.children) : [];
-
-        // 6 anuncios (texto + gradiente index)
-        const items = [
-          { text: '✨ Bienvenido a El Rincón del Bocado — nuevas recetas cada semana.', grad: 0 },
-          { text: '🍲 Comparte tu receta y gana tu medalla de Chef de la Comunidad.',   grad: 4 },
-          { text: '📸 Fotos en alta calidad: tus platos se ven mejor y reciben más guardados.', grad: 2 },
-          { text: '🔎 Búsquedas potentes: encontrá por nombre, dificultad o ingredientes.', grad: 1 },
-          { text: '⭐ Guardá tus favoritas y cocínalas cuando quieras.',                grad: 3 },
-          { text: '⚡ Interfaz moderna y rápida — hecha con amor en Django + Bootstrap.', grad: 5 }
-        ];
-
-        let idx = 0;
-        let dir = 1; // 1 adelante, -1 atrás
-
-        const setTopbarHeight = () => {
-          const tb = (topbar && getComputedStyle(topbar).display !== 'none') ? topbar.offsetHeight : 0;
-          document.documentElement.style.setProperty('--topbar-h', tb + 'px');
-        };
-
-        const applyDotState = () => {
-          if (!dots.length) return;
-          dots.forEach((d,i) => d.classList.toggle('active', i === idx));
-        };
-
-        const applyBg = () => {
-          if (!bg) return;
-          for (let i=0;i<6;i++) bg.classList.remove('tb-grad-'+i);
-          bg.classList.add('tb-grad-'+items[idx].grad);
-        };
-
-        const switchText = (next) => {
-          if (!textNode) return;
-          const exiting = textNode.cloneNode(true);
-          exiting.classList.remove('tb-enter');
-          exiting.classList.add('tb-exit');
-          if (dir === -1) exiting.classList.add('back');
-          textNode.parentNode.appendChild(exiting);
-
-          textNode.textContent = next.text;
-          textNode.classList.remove('tb-exit','back');
-          textNode.classList.add('tb-enter');
-          if (dir === -1) textNode.classList.add('back');
-
-          setTimeout(() => exiting.remove(), 380);
-        };
-
-        const goTo = (nextIndex) => {
-          dir = (nextIndex > idx) ? 1 : -1;
-          idx = (nextIndex + items.length) % items.length;
-          switchText(items[idx]);
-          applyBg();
-          applyDotState();
-        };
-
-        // init
-        applyBg();
-        applyDotState();
-        setTopbarHeight();
-        window.addEventListener('resize', setTopbarHeight, { passive:true });
-
-        // autoplay cada 4s
-        setInterval(() => goTo(idx+1), 4000);
-      })();
-    </script>
-
-    <!-- Navbar: indicador activo bajo el texto -->
-    <script>
-      (function(){
-        const nav = document.getElementById('navModern');
-        if (!nav) return;
-
-        const indicator = nav.querySelector('.nav-active-indicator');
-        const links = Array.from(nav.querySelectorAll('.modern-link'));
-        const OFFSET = 6; // separación bajo el texto (ajustada fina)
-
-        const textRect = (el) => {
-          const range = document.createRange();
-          range.selectNodeContents(el);
-          const rect = range.getBoundingClientRect();
-          return rect.width ? rect : el.getBoundingClientRect();
-        };
-
-        const setIndicatorTo = (el) => {
-          const navRect = nav.getBoundingClientRect();
-          const r = textRect(el);
-          const x = r.left - navRect.left;
-          const w = r.width;
-          const y = (r.bottom - navRect.top) + OFFSET;
-          indicator.style.setProperty('--indicator-x', x + "px");
-          indicator.style.setProperty('--indicator-w', w + "px");
-          indicator.style.setProperty('--indicator-y', y + "px");
-        };
-
-        const active = links.find(a => a.getAttribute('aria-current') === 'page') || links[0];
-        if (active) setIndicatorTo(active);
-
-        links.forEach(link => link.addEventListener('mouseenter', () => setIndicatorTo(link)));
-        nav.addEventListener('mouseleave', () => active && setIndicatorTo(active));
-        window.addEventListener('resize', () => {
-          const current = document.querySelector('.modern-link[aria-current="page"]') || active;
-          if (current) setIndicatorTo(current);
-        });
-      })();
-    </script>
+    <!-- JS del TopBar -->
+    <script src="{% static 'js/topbar.js' %}?v=2025-10-18a" defer></script>
 
     {% block extra_js %}{% endblock %}
   </body>

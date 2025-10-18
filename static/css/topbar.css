@@ -1,0 +1,151 @@
+:root {
+  --topbar-h: 40px;
+}
+
+/* wrapper fijo con transición para ocultarlo en scroll */
+#topbar-aurora.topbar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--topbar-h);
+  z-index: 1040;
+  overflow: hidden;
+  transform: translateY(0);
+  transition: transform .28s ease;
+}
+
+/* salida/entrada del topbar */
+#topbar-aurora.topbar.tb-hidden {
+  transform: translateY(-100%);
+}
+
+/* fondo gradiente conmutado por clase tb-grad-* */
+#topbar-aurora .tb-bg {
+  position: absolute;
+  inset: 0;
+  opacity: .9;
+}
+
+#topbar-aurora .tb-grad-0 { background: linear-gradient(90deg, #f97316, #ec4899); }
+#topbar-aurora .tb-grad-1 { background: linear-gradient(90deg, #a855f7, #2563eb); }
+#topbar-aurora .tb-grad-2 { background: linear-gradient(90deg, #ec4899, #e11d48); }
+#topbar-aurora .tb-grad-3 { background: linear-gradient(90deg, #ef4444, #ea580c); }
+#topbar-aurora .tb-grad-4 { background: linear-gradient(90deg, #eab308, #ea580c); }
+#topbar-aurora .tb-grad-5 { background: linear-gradient(90deg, #06b6d4, #2563eb); }
+
+/* capa glass y glow inferior */
+#topbar-aurora .tb-glass {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+#topbar-aurora .tb-bottom-glow {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.4), transparent);
+}
+
+/* contenido */
+#topbar-aurora .tb-inner {
+  position: relative;
+  height: var(--topbar-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 16px;
+  max-width: 1280px;
+  margin: 0 auto;
+  gap: 16px;
+}
+
+/* texto + icono centrado */
+#topbar-aurora .tb-text-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-size: 14.5px;
+  font-weight: 500;
+  letter-spacing: .1px;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+#topbar-aurora .tb-text {
+  display: inline-block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* icono vector blanco con animación */
+#topbar-aurora .tb-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+#topbar-aurora .tb-icon svg {
+  width: 16px; height: 16px;
+  display: block;
+  stroke: currentColor;
+}
+
+/* wobble + pulse suave, sincronizado con rotación */
+@keyframes tb-wobble {
+  0% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(8deg) scale(1.05); }
+  50% { transform: rotate(-8deg) scale(1.1); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+#topbar-aurora .tb-icon-anim {
+  animation: tb-wobble 2s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+/* dots a la derecha */
+#topbar-aurora .tb-dots {
+  margin-left: auto;
+  display: none;
+  align-items: center;
+  gap: 6px;
+}
+
+@media (min-width: 640px) {
+  #topbar-aurora .tb-dots { display: flex; }
+}
+
+#topbar-aurora .tb-dot {
+  width: 6px; height: 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.45);
+  transition: all .18s ease;
+  border: 0;
+  padding: 0;
+}
+
+#topbar-aurora .tb-dot:hover { background: rgba(255,255,255,.65); }
+
+#topbar-aurora .tb-dot.is-active {
+  width: 24px; height: 6px;
+  background: #fff;
+}
+
+/* transiciones de swap texto/icono */
+#topbar-aurora .tb-leave-left {
+  opacity: 0 !important;
+  transform: translateX(-22px) !important;
+}
+
+#topbar-aurora .tb-enter-right {
+  opacity: 1 !important;
+  transform: translateX(0) !important;
+}
