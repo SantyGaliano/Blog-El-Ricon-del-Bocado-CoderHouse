@@ -1,0 +1,138 @@
+:root {
+  --brand-grad-1: #ff9d2f;
+  --brand-grad-2: #ff5ea8;
+  --brand-grad-3: #8b5cf6;
+  --topbar-h: 44px;
+}
+
+/* Capa glass y posición relativa al topbar */
+.navbar.navbar-custom {
+  top: var(--topbar-h, 44px);
+  background-color: #0c0c0e !important; /* color sólido como el home */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: top .35s ease;
+  z-index: 1030;
+}
+
+/* Cuando no hay topbar, el navbar sube */
+.topbar-hidden .navbar.navbar-custom {
+  top: 0;
+}
+
+/* Layout interno */
+.navbar.navbar-custom .container-fluid {
+  align-items: center;
+  gap: clamp(8px, 1.5vw, 16px);
+}
+
+/* Marca / logo: solo agrandamos el logo, no el navbar */
+.navbar.navbar-custom .navbar-brand {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin-right: clamp(8px, 1.8vw, 20px);
+}
+
+/* Logo grande sin aumentar la altura del navbar (márgenes negativos) */
+.navbar.navbar-custom .navbar-brand img {
+  height: 104px;             /* ← más grande */
+  width: auto;
+  display: block;
+  object-fit: contain;
+  line-height: 1;
+  margin-top: -22px;          /* compensa la altura extra */
+  margin-bottom: -22px;       /* compensa la altura extra */
+}
+
+/* Si existiera un título textual junto al logo, se oculta */
+.navbar.navbar-custom .navbar-brand .brand-title {
+  display: none;
+}
+
+/* Botón hamburguesa */
+.navbar.navbar-custom .navbar-toggler {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: none;
+}
+.navbar.navbar-custom .navbar-toggler:focus {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, .12);
+}
+
+/* Menú con subrayado animado cercano al texto */
+.navbar.navbar-custom .nav-modern {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 2vw, 18px);
+}
+
+.navbar.navbar-custom .modern-link {
+  position: relative;
+  padding: .25rem .5rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, .86);
+  text-decoration: none;
+  line-height: 1.2;
+  transition: color .2s ease;
+}
+.navbar.navbar-custom .modern-link:hover {
+  color: #fff;
+}
+
+/* Subrayado pegado al texto */
+.navbar.navbar-custom .modern-link::after {
+  content: "";
+  position: absolute;
+  left: .4em;
+  right: .4em;
+  bottom: -6px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--brand-grad-1), var(--brand-grad-2), var(--brand-grad-3));
+  opacity: 0;
+  transform: scaleX(.5);
+  transform-origin: center;
+  transition: opacity .22s ease, transform .22s ease;
+}
+.navbar.navbar-custom .modern-link:hover::after,
+.navbar.navbar-custom .modern-link.is-active::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* Avatar en el navbar */
+.navbar.navbar-custom .avatar-nav {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Colapso en móviles: fondo consistente con el navbar */
+@media (max-width: 991.98px) {
+  .navbar.navbar-custom .navbar-collapse {
+    padding: 10px 0;
+    background-color: #0c0c0e;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin-top: 8px;
+  }
+
+  .navbar.navbar-custom .nav-modern {
+    gap: 12px;
+  }
+
+  .navbar.navbar-custom .modern-link::after {
+    bottom: -5px;
+  }
+
+  /* Logo un poco más moderado en pantallas pequeñas para evitar solaparse */
+  .navbar.navbar-custom .navbar-brand img {
+    height: 88px;
+    margin-top: -16px;
+    margin-bottom: -16px;
+  }
+}

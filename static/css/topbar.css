@@ -12,7 +12,7 @@
   border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-/* fondo gradiente (opacidad baja) */
+/* fondo gradiente sutil por anuncio */
 #topbar-min .tb-bg {
   position: absolute;
   inset: 0;
@@ -26,22 +26,17 @@
 #topbar-min .tb-grad-4 { background: linear-gradient(90deg,#eab308,#ea580c); }
 #topbar-min .tb-grad-5 { background: linear-gradient(90deg,#06b6d4,#2563eb); }
 
-#topbar-min .tb-glass {
-  position: absolute;
-  inset: 0;
-  background: transparent;
-  pointer-events: none;
-}
+#topbar-min .tb-glass { position: absolute; inset: 0; background: transparent; pointer-events: none; }
 
-/* línea superior sutil */
+/* línea superior */
 #topbar-min .tb-topline {
-  position: absolute;
-  left: 0; right: 0; top: 0;
+  position: absolute; left: 0; right: 0; top: 0;
   height: 1px;
   background: linear-gradient(90deg,transparent,rgba(255,255,255,.10),transparent);
   pointer-events: none;
 }
 
+/* layout */
 #topbar-min .tb-inner {
   position: relative;
   height: var(--topbar-h);
@@ -54,17 +49,12 @@
   margin: 0 auto;
 }
 
-/* izquierda: chevrons + dots */
-#topbar-min .tb-left{
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+/* navegación: chevrons + dots */
+#topbar-min .tb-left{ display: flex; align-items: center; gap: 12px; }
 
 #topbar-min .tb-chevron{
   display: none;
-  align-items: center;
-  justify-content: center;
+  align-items: center; justify-content: center;
   width: 28px; height: 28px;
   border-radius: 8px;
   color: rgba(255,255,255,.40);
@@ -79,11 +69,7 @@
 }
 @media (min-width: 640px){ #topbar-min .tb-chevron { display: inline-flex; } }
 
-#topbar-min .tb-dots{
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+#topbar-min .tb-dots{ display: flex; align-items: center; gap: 8px; }
 #topbar-min .tb-dot{
   width: 4px; height: 4px;
   border-radius: 999px;
@@ -93,82 +79,61 @@
 }
 #topbar-min .tb-dot:hover{ background: rgba(255,255,255,.50); }
 #topbar-min .tb-dot.is-active{
-  width: 32px; height: 4px;
-  background: #fff;
-  border-radius: 999px;
-  position: relative;
+  width: 32px; height: 4px; background: #fff; border-radius: 999px; position: relative;
 }
 #topbar-min .tb-dot.is-active::after{
-  content: "";
-  position: absolute; inset: 0;
-  background: rgba(255,255,255,.5);
-  filter: blur(4px);
-  border-radius: inherit;
+  content: ""; position: absolute; inset: 0;
+  background: rgba(255,255,255,.5); filter: blur(4px); border-radius: inherit;
 }
 
-/* centro: slide vertical suave */
+/* centro: slide */
 #topbar-min .tb-center{
   flex: 1 1 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  min-width: 0;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; min-width: 0;
 }
-
 #topbar-min .tb-slide{
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  color: #fff;
-  white-space: nowrap;
-  max-width: 100%;
+  display: inline-flex; align-items: center; gap: 12px;
+  color: #fff; white-space: nowrap; max-width: 100%;
 }
 
-#topbar-min .tb-icon{
-  display: inline-flex;
-  width: 16px; height: 16px;
-  align-items: center; justify-content: center;
-}
-#topbar-min .tb-icon svg{
-  width: 16px; height: 16px;
-  stroke: #fff;
-}
+/* ícono */
+#topbar-min .tb-icon{ display: inline-flex; width: 16px; height: 16px; align-items: center; justify-content: center; }
+#topbar-min .tb-icon svg{ width: 16px; height: 16px; stroke: #fff; fill: none; }
 
-/* pulso en icono */
-@keyframes tb-icon-pulse {
-  0% { box-shadow: 0 0 0 0 rgba(255,255,255,0); transform: scale(1); }
-  50%{ box-shadow: 0 0 0 4px rgba(255,255,255,.10); transform: scale(1.05); }
-  100%{ box-shadow: 0 0 0 0 rgba(255,255,255,0); transform: scale(1); }
-}
+/* wrapper del ícono SIN cuadrado */
 #topbar-min .tb-icon-badge{
-  display: inline-flex;
-  align-items: center; justify-content: center;
-  padding: 6px;
-  border-radius: 8px;
-  animation: tb-icon-pulse 2s ease-in-out infinite;
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0 !important;
+  background: none !important;
+  border-radius: 9999px !important;
+  box-shadow: none !important;
+}
+/* animación de glow directamente al SVG (sin caja) */
+#topbar-min .tb-icon-badge svg{
+  animation: tb-glow 2.4s ease-in-out infinite;
+  filter: drop-shadow(0 0 0 rgba(255,255,255,0));
+  transform: translateZ(0);
+}
+@keyframes tb-glow{
+  0%   { transform: scale(1);    filter: drop-shadow(0 0 0 rgba(255,255,255,0)); }
+  50%  { transform: scale(1.06); filter: drop-shadow(0 0 6px rgba(255,255,255,.35)); }
+  100% { transform: scale(1);    filter: drop-shadow(0 0 0 rgba(255,255,255,0)); }
 }
 
-#topbar-min .tb-texts{
-  display: flex; align-items: center; gap: 8px;
-  min-width: 0;
+/* textos */
+#topbar-min .tb-texts{ display: flex; align-items: center; gap: 8px; min-width: 0;
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1;
+  font-size: 14px; line-height: 1;
 }
 #topbar-min .tb-title{
   font-family: "Space Grotesk", sans-serif;
-  color: rgba(255,255,255,.90);
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  color: rgba(255,255,255,.90); font-weight: 600; letter-spacing: -0.01em;
 }
 #topbar-min .tb-sep{ color: rgba(255,255,255,.30); }
-#topbar-min .tb-desc{
-  color: rgba(255,255,255,.60);
-  text-overflow: ellipsis; overflow: hidden;
-}
+#topbar-min .tb-desc{ color: rgba(255,255,255,.60); text-overflow: ellipsis; overflow: hidden; }
 
-/* responsive: mobile solo título */
+/* responsive */
 #topbar-min .tb-texts-desktop{ display: none; }
 #topbar-min .tb-texts-mobile{ display: flex; }
 @media (min-width: 640px){
@@ -176,48 +141,31 @@
   #topbar-min .tb-texts-mobile{ display: none; }
 }
 
-/* derecha: cerrar */
+/* cerrar */
 #topbar-min .tb-close{
-  display: inline-flex;
-  align-items: center; justify-content: center;
-  width: 28px; height: 28px;
-  border-radius: 8px;
-  color: rgba(255,255,255,.40);
-  background: transparent;
-  border: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 8px;
+  color: rgba(255,255,255,.40); background: transparent; border: 0;
   transition: color .15s ease, background-color .15s ease, transform .1s ease;
 }
-#topbar-min .tb-close:hover{
-  color: rgba(255,255,255,.80);
-  background: rgba(255,255,255,.05);
-  transform: translateY(-1px);
-}
+#topbar-min .tb-close:hover{ color: rgba(255,255,255,.80); background: rgba(255,255,255,.05); transform: translateY(-1px); }
 
-/* shimmer lento con pausa: 8s + 2s hold */
+/* shimmer */
 #topbar-min .tb-shimmer{
   position: absolute; inset: 0;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,.03), transparent);
   pointer-events: none;
   animation: tb-shimmer 10s linear infinite;
 }
-@keyframes tb-shimmer{
-  0%   { transform: translateX(-200%); }
-  80%  { transform: translateX(200%); }
-  100% { transform: translateX(200%); } /* hold 2s */
-}
+@keyframes tb-shimmer{ 0%{transform:translateX(-200%)} 80%{transform:translateX(200%)} 100%{transform:translateX(200%)} }
 
-/* progress inferior 2px, fill por JS */
+/* progress */
 #topbar-min .tb-progress{
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 2px;
-  background: rgba(255,255,255,.05);
+  position: absolute; left: 0; right: 0; bottom: 0;
+  height: 2px; background: rgba(255,255,255,.05);
 }
 #topbar-min .tb-progress-bar{
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg,#f97316,#ec4899); /* se reemplaza al cambiar item */
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg,#f97316,#ec4899);
   transition: width .05s linear;
 }
-
-/* anim helpers: las transiciones se setean desde JS con transform/opacity */

@@ -1,50 +1,12 @@
-// dataset de anuncios
 const TB_ITEMS = [
-  {
-    icon: 'sparkles',
-    title: 'Nuevas Recetas',
-    desc: 'Descubre las últimas creaciones culinarias de nuestra comunidad',
-    grad: 0,
-    accent: 'rgba(249, 115, 22, 0.2)'
-  },
-  {
-    icon: 'trending',
-    title: 'Comunidad Creciente',
-    desc: '50,000+ chefs compartiendo sus pasiones culinarias',
-    grad: 1,
-    accent: 'rgba(168, 85, 247, 0.2)'
-  },
-  {
-    icon: 'gift',
-    title: 'Nueva Función',
-    desc: 'Organiza tus recetas favoritas en colecciones personalizadas',
-    grad: 2,
-    accent: 'rgba(236, 72, 153, 0.2)'
-  },
-  {
-    icon: 'flame',
-    title: 'Tendencias',
-    desc: 'Recetas asiáticas fusión liderando en popularidad',
-    grad: 3,
-    accent: 'rgba(239, 68, 68, 0.2)'
-  },
-  {
-    icon: 'star',
-    title: 'Chef Destacado',
-    desc: 'María Sánchez alcanza 2 millones de vistas este mes',
-    grad: 4,
-    accent: 'rgba(234, 179, 8, 0.2)'
-  },
-  {
-    icon: 'zap',
-    title: 'Recetas Express',
-    desc: 'Deliciosas comidas listas en menos de 15 minutos',
-    grad: 5,
-    accent: 'rgba(6, 182, 212, 0.2)'
-  }
+  { icon: 'sparkles', title: 'Nuevas Recetas',      desc: 'Descubre las últimas creaciones culinarias de nuestra comunidad', grad: 0 },
+  { icon: 'trending', title: 'Comunidad Creciente', desc: '50,000+ chefs compartiendo sus pasiones culinarias',             grad: 1 },
+  { icon: 'gift',     title: 'Nueva Función',       desc: 'Organiza tus recetas favoritas en colecciones personalizadas',   grad: 2 },
+  { icon: 'flame',    title: 'Tendencias',          desc: 'Recetas asiáticas fusión liderando en popularidad',             grad: 3 },
+  { icon: 'star',     title: 'Chef Destacado',      desc: 'María Sánchez alcanza 2 millones de vistas este mes',           grad: 4 },
+  { icon: 'zap',      title: 'Recetas Express',     desc: 'Deliciosas comidas listas en menos de 15 minutos',              grad: 5 }
 ];
 
-// svg blancos
 const ICONS = {
   sparkles: '<svg viewBox="0 0 24 24" fill="none"><path d="M5 3l1.5 3L10 7.5 6.5 9 5 12 3.5 9 0 7.5 3.5 6 5 3Z" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 10l1 2 2 1-2 1-1 2-1-2-2-1 2-1 1-2Z" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   trending: '<svg viewBox="0 0 24 24" fill="none"><path d="M3 17l6-6 4 4 7-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 8h7v7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
@@ -93,21 +55,19 @@ const ICONS = {
   btnNext.addEventListener('click', () => { direction = 1; goTo((index + 1) % TB_ITEMS.length); });
   btnPrev.addEventListener('click', () => { direction = -1; goTo((index - 1 + TB_ITEMS.length) % TB_ITEMS.length); });
 
-  // close
+  // cerrar
   btnClose.addEventListener('click', () => {
     root.style.display = 'none';
     document.documentElement.style.setProperty('--topbar-h', '0px');
   });
 
-  // inicial
+  // inicio
   render(0, true);
   start();
 
   function start(){
     stop();
-    const duration = 5000;
-    const interval = 50;
-    const inc = 100 / (duration / interval);
+    const duration = 5000, interval = 50, inc = 100 / (duration / interval);
     timer = setInterval(() => {
       progress += inc;
       if (progress >= 100) {
@@ -118,23 +78,14 @@ const ICONS = {
       }
     }, interval);
   }
-  function stop(){
-    if (timer) clearInterval(timer);
-    timer = null;
-  }
+  function stop(){ if (timer) clearInterval(timer); timer = null; }
 
-  // anim velocidades
-  const OUT_MS = 380;
-  const IN_MS  = 500;
+  const OUT_MS = 380, IN_MS = 500;
 
-  function goTo(next){
-    if (next === index) return;
-    swap(next);
-  }
+  function goTo(next){ if (next !== index) swap(next); }
 
   function swap(next){
     animateOut(slide, direction);
-
     setTimeout(() => {
       render(next, false);
       animateIn(slide, direction);
@@ -144,13 +95,13 @@ const ICONS = {
   function render(i, first){
     const item = TB_ITEMS[i];
 
-    // fondo gradiente
+    // fondo
     const prevClass = [...bg.classList].find(c => c.startsWith('tb-grad-'));
     if (prevClass) bg.classList.remove(prevClass);
     bg.classList.add(`tb-grad-${item.grad}`);
 
-    // icon con badge de acento
-    icon.innerHTML = `<span class="tb-icon-badge" style="background:${item.accent}">${ICONS[item.icon] || ICONS.sparkles}</span>`;
+    // ícono sin fondo ni caja
+    icon.innerHTML = `<span class="tb-icon-badge">${ICONS[item.icon] || ICONS.sparkles}</span>`;
 
     // textos
     title.textContent = item.title;
@@ -160,7 +111,6 @@ const ICONS = {
     // progress
     progress = 0;
     bar.style.width = '0%';
-    // gradiente del progress igual al fondo del item
     const gradMap = {
       0: 'linear-gradient(90deg,#f97316,#ec4899)',
       1: 'linear-gradient(90deg,#a855f7,#2563eb)',
@@ -171,32 +121,28 @@ const ICONS = {
     };
     bar.style.background = gradMap[item.grad] || gradMap[0];
 
-    // dots estado
+    // dots
     const all = dotsWrap.querySelectorAll('.tb-dot');
     all.forEach((d, idx) => d.classList.toggle('is-active', idx === i));
 
-    // autoplay
     if (!first){ start(); }
-
     index = i;
   }
 
-  function animateOut(container, dir){
-    container.style.transition = `opacity ${OUT_MS}ms cubic-bezier(.25,.1,.25,1), transform ${OUT_MS}ms cubic-bezier(.25,.1,.25,1)`;
-    container.style.opacity = '1';
-    container.style.transform = 'translateY(0)';
-    void container.offsetWidth; // reflow
-    container.style.opacity = '0';
-    container.style.transform = `translateY(${dir > 0 ? -20 : 20}px)`;
+  function animateOut(el, dir){
+    el.style.transition = `opacity ${OUT_MS}ms cubic-bezier(.25,.1,.25,1), transform ${OUT_MS}ms cubic-bezier(.25,.1,.25,1)`;
+    el.style.opacity = '1'; el.style.transform = 'translateY(0)';
+    void el.offsetWidth;
+    el.style.opacity = '0';
+    el.style.transform = `translateY(${dir > 0 ? -20 : 20}px)`;
   }
-
-  function animateIn(container, dir){
-    container.style.transition = 'none';
-    container.style.opacity = '0';
-    container.style.transform = `translateY(${dir > 0 ? 20 : -20}px)`;
-    void container.offsetWidth;
-    container.style.transition = `opacity ${IN_MS}ms cubic-bezier(.25,.1,.25,1), transform ${IN_MS}ms cubic-bezier(.25,.1,.25,1)`;
-    container.style.opacity = '1';
-    container.style.transform = 'translateY(0)';
+  function animateIn(el, dir){
+    el.style.transition = 'none';
+    el.style.opacity = '0';
+    el.style.transform = `translateY(${dir > 0 ? 20 : -20}px)`;
+    void el.offsetWidth;
+    el.style.transition = `opacity ${IN_MS}ms cubic-bezier(.25,.1,.25,1), transform ${IN_MS}ms cubic-bezier(.25,.1,.25,1)`;
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
   }
 })();
