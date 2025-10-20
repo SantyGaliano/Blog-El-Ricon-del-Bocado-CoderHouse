@@ -12,16 +12,18 @@
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-  <!-- Estilos globales del sitio (navbar, hero, etc) -->
+  <!-- Estilos globales -->
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-  <!-- Estilos del TopBar -->
+  <!-- TopBar -->
   <link rel="stylesheet" href="{% static 'css/topbar.css' %}">
+  <!-- Navbar (componente) -->
+  <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
 
   {% block extra_css %}{% endblock %}
 </head>
 <body>
 
-  <!-- TopBar minimal (44px) -->
+  <!-- TopBar mínimo (usa IDs que espera topbar.js) -->
   <div id="topbar-min" role="region" aria-label="Anuncios del sitio">
     <div id="tbBg" class="tb-bg tb-grad-0"></div>
     <div class="tb-glass"></div>
@@ -30,18 +32,16 @@
     <div class="tb-inner">
       <div class="tb-left">
         <button id="tbPrev" type="button" class="tb-chevron" aria-label="Anterior">
-          <!-- chevron left -->
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
         </button>
 
         <div id="tbDots" class="tb-dots" aria-label="Navegación de anuncios"></div>
 
         <button id="tbNext" type="button" class="tb-chevron" aria-label="Siguiente">
-          <!-- chevron right -->
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
         </button>
       </div>
@@ -49,11 +49,13 @@
       <div class="tb-center">
         <div id="tbSlide" class="tb-slide">
           <span id="tbIcon" class="tb-icon"></span>
+
           <span class="tb-texts tb-texts-desktop">
             <strong id="tbTitle" class="tb-title"></strong>
             <span class="tb-sep">·</span>
             <span id="tbDesc" class="tb-desc"></span>
           </span>
+
           <span class="tb-texts tb-texts-mobile">
             <strong id="tbTitleMobile" class="tb-title"></strong>
           </span>
@@ -62,88 +64,18 @@
 
       <button id="tbClose" type="button" class="tb-close" aria-label="Cerrar">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
         </svg>
       </button>
     </div>
-
-    <div class="tb-shimmer" aria-hidden="true"></div>
 
     <div class="tb-progress" aria-hidden="true">
       <div id="tbProgressBar" class="tb-progress-bar"></div>
     </div>
   </div>
 
-  <!-- Navbar fijo con glass, desplazado debajo del topbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top" style="top: var(--topbar-h, 44px);">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'home' %}">
-        <img src="{% static 'images/El Rincón Del Bocado.png' %}" alt="El Rincón Del Bocado" height="32" />
-      </a>
-
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-label="Abrir menú">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navMenu">
-        {% with current_url=request.resolver_match.url_name|default:'' %}
-        <ul class="navbar-nav ms-auto nav-modern" id="navModern">
-          <i class="nav-active-pill" aria-hidden="true"></i>
-
-          <li class="nav-item">
-            <a class="nav-link modern-link {% if current_url == 'home' or current_url == 'recipes:home' %}is-active{% endif %}"
-               href="{% url 'home' %}"
-               aria-current="{% if current_url == 'home' or current_url == 'recipes:home' %}page{% endif %}">
-              Inicio
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link modern-link {% if current_url == 'about' %}is-active{% endif %}"
-               href="{% url 'about' %}"
-               aria-current="{% if current_url == 'about' %}page{% endif %}">
-              Acerca de
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link modern-link {% if current_url == 'recipe-list' or current_url == 'recipes:list' %}is-active{% endif %}"
-               href="{% url 'recipe-list' %}"
-               aria-current="{% if current_url == 'recipe-list' or current_url == 'recipes:list' %}page{% endif %}">
-              Recetas
-            </a>
-          </li>
-
-          {% if user.is_authenticated %}
-            <li class="nav-item d-flex align-items-center">
-              <a href="{% url 'profile' %}" class="nav-link p-0 d-flex align-items-center modern-link" style="gap:.5rem;">
-                {% if user.profile.avatar %}
-                  <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="avatar-nav">
-                {% else %}
-                  <img src="https://i.pravatar.cc/150?u={{ user.username }}" alt="{{ user.username }}" class="avatar-nav">
-                {% endif %}
-                <span class="d-none d-lg-inline">{{ user.username }}</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <form method="post" action="{% url 'logout' %}" class="m-0">{% csrf_token %}
-                <button type="submit" class="nav-link btn btn-link p-0 modern-link">Cerrar sesión</button>
-              </form>
-            </li>
-          {% else %}
-            <li class="nav-item">
-              <a class="nav-link modern-link {% if current_url == 'auth' or current_url == 'accounts:auth' %}is-active{% endif %}"
-                 href="{% url 'auth' %}"
-                 aria-current="{% if current_url == 'auth' or current_url == 'accounts:auth' %}page{% endif %}">
-                Iniciar sesión
-              </a>
-            </li>
-          {% endif %}
-        </ul>
-        {% endwith %}
-      </div>
-    </div>
-  </nav>
+  <!-- Navbar como componente -->
+  {% include "components/navbar.html" %}
 
   {% block fullwidth_content %}{% endblock %}
 
@@ -157,6 +89,10 @@
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Navbar JS -->
+  <script src="{% static 'js/navbar.js' %}"></script>
+
   <!-- TopBar JS -->
   <script src="{% static 'js/topbar.js' %}"></script>
 
