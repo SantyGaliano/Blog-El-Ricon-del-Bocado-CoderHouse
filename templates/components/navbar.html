@@ -1,0 +1,341 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+  <div class="container-fluid">
+    <!-- Marca -->
+    <a class="navbar-brand p-0" href="{% url 'home' %}">
+      <img
+        src="{% static 'images/El Rincón Del Bocado.png' %}"
+        alt="El Rincón Del Bocado"
+        class="brand-logo"
+      />
+    </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navMenu"
+      aria-label="Abrir menú"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      {% with current_url=request.resolver_match.url_name|default:'' %}
+
+      <!-- Menú centrado -->
+      <ul class="navbar-nav primary-nav nav-modern">
+        <!-- INICIO -->
+        <li class="nav-item">
+          <a
+            href="{% url 'home' %}"
+            class="nav-link modern-link {% if current_url == 'home' %}is-active{% endif %}"
+            aria-current="{% if current_url == 'home' %}page{% endif %}"
+          >Inicio</a>
+        </li>
+
+        <!-- RECETAS (mega menu) -->
+        <li class="nav-item dropdown position-static" data-hover="true">
+          <a
+            href="{% url 'recipe-list' %}"
+            id="nav-recipes-btn"
+            class="nav-link modern-link {% if current_url == 'recipe-list' %}is-active{% endif %}"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >Recetas</a>
+
+          <div class="dropdown-menu mega-menu mega-recipes p-0 border-0" aria-labelledby="nav-recipes-btn">
+            <div class="mega-card">
+              <div class="mega-bg"></div>
+              <div class="mega-topline"></div>
+
+              <div class="row g-4">
+                <!-- IZQUIERDA: categorías (5 cols) -->
+                <div class="col-12 col-lg-5">
+                  <div class="section-title">
+                    <span class="title-bar"></span><h3>Categorías</h3>
+                  </div>
+
+                  <div class="row g-2">
+                    <!-- 1 -->
+                    <div class="col-6">
+                      <a href="{% url 'recipe-list' %}" class="card-mini group">
+                        <span class="mini-ico">🍲</span>
+                        <div class="mini-texts">
+                          <span class="mini-title">Asiática</span>
+                          <span class="mini-sub">312 recetas</span>
+                        </div>
+                        <span class="mini-arrow">→</span>
+                      </a>
+                    </div>
+                    <!-- 2 -->
+                    <div class="col-6">
+                      <a href="{% url 'recipe-list' %}" class="card-mini group">
+                        <span class="mini-ico">🍕</span>
+                        <div class="mini-texts">
+                          <span class="mini-title">Italiana</span>
+                          <span class="mini-sub">189 recetas</span>
+                        </div>
+                        <span class="mini-arrow">→</span>
+                      </a>
+                    </div>
+                    <!-- 3 -->
+                    <div class="col-6">
+                      <a href="{% url 'recipe-list' %}" class="card-mini group">
+                        <span class="mini-ico">🌮</span>
+                        <div class="mini-texts">
+                          <span class="mini-title">Mexicana</span>
+                          <span class="mini-sub">234 recetas</span>
+                        </div>
+                        <span class="mini-arrow">→</span>
+                      </a>
+                    </div>
+                    <!-- 4 -->
+                    <div class="col-6">
+                      <a href="{% url 'recipe-list' %}" class="card-mini group">
+                        <span class="mini-ico">🍰</span>
+                        <div class="mini-texts">
+                          <span class="mini-title">Postres</span>
+                          <span class="mini-sub">156 recetas</span>
+                        </div>
+                        <span class="mini-arrow">→</span>
+                      </a>
+                    </div>
+                    <!-- 5 -->
+                    <div class="col-6">
+                      <a href="{% url 'recipe-list' %}" class="card-mini group">
+                        <span class="mini-ico">☕</span>
+                        <div class="mini-texts">
+                          <span class="mini-title">Bebidas</span>
+                          <span class="mini-sub">98 recetas</span>
+                        </div>
+                        <span class="mini-arrow">→</span>
+                      </a>
+                    </div>
+                    <!-- 6 -->
+                    <div class="col-6">
+                      <a href="{% url 'recipe-list' %}" class="card-mini group">
+                        <span class="mini-ico">🥐</span>
+                        <div class="mini-texts">
+                          <span class="mini-title">Panadería</span>
+                          <span class="mini-sub">145 recetas</span>
+                        </div>
+                        <span class="mini-arrow">→</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- SEPARADOR (1 col) -->
+                <div class="col-lg-1 d-none d-lg-flex align-items-stretch justify-content-center">
+                  <div class="v-sep"></div>
+                </div>
+
+                <!-- DERECHA: colecciones + destacadas (6 cols) -->
+                <div class="col-12 col-lg-6">
+                  <!-- Colecciones -->
+                  <div class="section-title">
+                    <span class="title-bar alt"></span><h3>Colecciones especiales</h3>
+                  </div>
+
+                  <div class="row g-2 mb-3">
+                    <!-- Rápidas -->
+                    <div class="col-6">
+                      <a href="{% url 'recipe-list' %}" class="card-collection group">
+                        <div class="col-ico">⚡</div>
+                        <div class="col-body">
+                          <div class="col-title">Rápidas</div>
+                          <div class="col-sub">Listas en &lt;15 min</div>
+                        </div>
+                      </a>
+                    </div>
+                    <!-- Populares -->
+                    <div class="col-6">
+                      <a href="{% url 'recipe-list' %}" class="card-collection group">
+                        <div class="col-ico">📈</div>
+                        <div class="col-body">
+                          <div class="col-title">Populares</div>
+                          <div class="col-sub">Favoritas de la comunidad</div>
+                        </div>
+                      </a>
+                    </div>
+                    <!-- Saludables -->
+                    <div class="col-6">
+                      <a href="{% url 'recipe-list' %}" class="card-collection group">
+                        <div class="col-ico">🥗</div>
+                        <div class="col-body">
+                          <div class="col-title">Saludables</div>
+                          <div class="col-sub">Opciones nutritivas</div>
+                        </div>
+                      </a>
+                    </div>
+                    <!-- Premiadas -->
+                    <div class="col-6">
+                      <a href="{% url 'recipe-list' %}" class="card-collection group">
+                        <div class="col-ico">🏅</div>
+                        <div class="col-body">
+                          <div class="col-title">Premiadas</div>
+                          <div class="col-sub">Galardonadas</div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+
+                  <!-- Destacadas -->
+                  <div class="section-title mb-2">
+                    <span class="title-bar gold"></span><h3>Destacadas</h3>
+                    <a href="{% url 'recipe-list' %}" class="see-all">Ver todas →</a>
+                  </div>
+
+                  <div class="row g-2">
+                    <!-- Tacos -->
+                    <div class="col-4">
+                      <a href="{% url 'recipe-list' %}" class="card-featured group">
+                        <div class="feat-img">
+                          <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=400&q=80" alt="Tacos al Pastor">
+                          <div class="feat-grad"></div>
+                          <div class="feat-info">
+                            <div class="feat-title">Tacos al Pastor</div>
+                            <div class="feat-meta">45 min • Fácil</div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                    <!-- Carbonara -->
+                    <div class="col-4">
+                      <a href="{% url 'recipe-list' %}" class="card-featured group">
+                        <div class="feat-img">
+                          <img src="https://images.unsplash.com/photo-1523986371872-9d3ba2e2f642?w=400&q=80" alt="Pasta Carbonara">
+                          <div class="feat-grad"></div>
+                          <div class="feat-info">
+                            <div class="feat-title">Pasta Carbonara</div>
+                            <div class="feat-meta">30 min • Intermedio</div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                    <!-- Sushi -->
+                    <div class="col-4">
+                      <a href="{% url 'recipe-list' %}" class="card-featured group">
+                        <div class="feat-img">
+                          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80" alt="Sushi Roll">
+                          <div class="feat-grad"></div>
+                          <div class="feat-info">
+                            <div class="feat-title">Sushi Roll</div>
+                            <div class="feat-meta">60 min • Avanzado</div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- NOSOTROS (mega menu compacto) -->
+        <li class="nav-item dropdown position-static" data-hover="true">
+          <a
+            href="{% url 'about' %}"
+            id="nav-about-btn"
+            class="nav-link modern-link {% if current_url == 'about' %}is-active{% endif %}"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >Nosotros</a>
+
+          <div class="dropdown-menu mega-menu mega-about p-0 border-0" aria-labelledby="nav-about-btn">
+            <div class="mega-card small">
+              <div class="mega-bg"></div>
+              <div class="mega-topline"></div>
+
+              <div class="list-opts">
+                <a href="{% url 'about' %}" class="opt group">
+                  <span class="opt-ico">📖</span>
+                  <span class="opt-body">
+                    <span class="opt-title">Nuestra historia</span>
+                    <span class="opt-sub">Cómo empezamos</span>
+                  </span>
+                  <span class="opt-arrow">→</span>
+                </a>
+
+                <a href="{% url 'about' %}" class="opt group">
+                  <span class="opt-ico">👥</span>
+                  <span class="opt-body">
+                    <span class="opt-title">Nuestro equipo</span>
+                    <span class="opt-sub">Quiénes estamos detrás</span>
+                  </span>
+                  <span class="opt-arrow">→</span>
+                </a>
+
+                <a href="{% url 'about' %}" class="opt group">
+                  <span class="opt-ico">✉️</span>
+                  <span class="opt-body">
+                    <span class="opt-title">Contáctanos</span>
+                    <span class="opt-sub">Estamos para ayudarte</span>
+                  </span>
+                  <span class="opt-arrow">→</span>
+                </a>
+
+                <a href="{% url 'about' %}" class="opt group">
+                  <span class="opt-ico">📰</span>
+                  <span class="opt-body">
+                    <span class="opt-title">Prensa</span>
+                    <span class="opt-sub">Media kit y noticias</span>
+                  </span>
+                  <span class="opt-arrow">→</span>
+                </a>
+              </div>
+
+              <div class="cta-box">
+                <div class="cta-head">
+                  <span class="cta-ico">🎯</span>
+                  <span class="cta-title">¿Tienes preguntas?</span>
+                </div>
+                <div class="cta-sub">Nuestro equipo está listo para ayudarte</div>
+                <div class="cta-actions">
+                  <a href="{% url 'about' %}" class="btn-ghost">✉️ Email</a>
+                  <a href="{% url 'about' %}" class="btn-grad">📞 Llamar</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+      <!-- Rail derecho -->
+      <ul class="navbar-nav ms-auto align-items-center right-rail">
+        {% if user.is_authenticated %}
+          <li class="nav-item d-flex align-items-center">
+            <a href="{% url 'accounts:profile' %}" class="nav-link p-0 d-flex align-items-center modern-link" style="gap:.5rem;">
+              {% if user.profile.avatar %}
+                <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="avatar-nav">
+              {% else %}
+                <img src="{% static 'images/default-avatar.png' %}" alt="{{ user.username }}" class="avatar-nav">
+              {% endif %}
+              <span class="d-none d-lg-inline">{{ user.username }}</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <form method="post" action="{% url 'logout' %}" class="m-0">{% csrf_token %}
+              <button type="submit" class="nav-link btn btn-link p-0 modern-link">Cerrar sesión</button>
+            </form>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a
+              href="{% url 'accounts:auth' %}"
+              class="nav-link modern-link {% if current_url == 'accounts:auth' or current_url == 'auth' %}is-active{% endif %}"
+              aria-current="{% if current_url == 'accounts:auth' or current_url == 'auth' %}page{% endif %}"
+            >Iniciar sesión</a>
+          </li>
+        {% endif %}
+      </ul>
+
+      {% endwith %}
+    </div>
+  </div>
+</nav>
