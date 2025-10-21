@@ -1,19 +1,50 @@
 /* Tipografías globales */
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* Variables de marca (uso general) */
+/* Paleta y sistema de color */
 :root{
-  --brand-grad-1: #ff9d2f;
-  --brand-grad-2: #ff5ea8;
-  --brand-grad-3: #8b5cf6;
+  /* Base */
+  --bg: #0C0C0E;
+  --surface-1: #121214;
+  --surface-2: #15161A;
+  --border: rgba(255,255,255,.10);
+  --border-strong: rgba(255,255,255,.18);
+
+  /* Texto */
+  --text: #E5E7EB;
+  --text-weak: #B4BDC8;
+  --text-muted: #8A93A0;
+
+  /* Gradiente fuego (secundario) */
+  --fire-1: #FFE08A;
+  --fire-2: #FF8A00;
+  --fire-3: #FF3B30;
+  --fire-4: #8B0000;
+  --fire-grad: linear-gradient(90deg, var(--fire-1) 0%, var(--fire-2) 35%, var(--fire-3) 70%, var(--fire-4) 100%);
+  --fire-grad-vert: linear-gradient(180deg, var(--fire-1) 0%, var(--fire-2) 35%, var(--fire-3) 70%, var(--fire-4) 100%);
+  --fire-ambient: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--fire-2) 12%, transparent),
+    color-mix(in oklab, var(--fire-3) 10%, transparent) 50%,
+    color-mix(in oklab, var(--fire-4) 12%, transparent)
+  );
+
+  /* Acento (CTAs) */
+  --accent: #22C55E;
+  --accent-600: #16A34A;
+  --accent-700: #15803D;
+  --on-accent: #0B0F0C;
+
+  /* Alturas integraciones */
+  --topbar-h: 44px; /* si lo defines en topbar.css, esta actúa de fallback */
 }
 
 html,body{ height: 100%; }
 
 body{
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  color: #e5e7eb;
-  background: #0c0c0e;
+  color: var(--text);
+  background: var(--bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -28,15 +59,15 @@ h1{ line-height: 1.2; font-weight: 700; }
 h2{ line-height: 1.3; font-weight: 700; letter-spacing: -0.01em; }
 p{ line-height: 1.6; }
 
-/* Scrollbar custom */
+/* Scrollbar */
 ::-webkit-scrollbar{ width: 10px; height: 10px; }
 ::-webkit-scrollbar-thumb{
-  background: linear-gradient(180deg, #f97316, #ec4899);
+  background: linear-gradient(180deg, var(--fire-2), var(--fire-3));
   border-radius: 10px;
 }
 ::-webkit-scrollbar-track{ background: #0e0e12; }
 
-/* Espaciado vertical estándar del contenido principal (bajo hero/secciones) */
+/* Espaciado vertical estándar del contenido principal */
 .content-container{
   padding-top: clamp(24px, 4vw, 36px);
   padding-bottom: clamp(24px, 4vw, 48px);
@@ -46,90 +77,88 @@ p{ line-height: 1.6; }
    HERO con video full-screen
    ========================= */
 
-/* Contenedor a pantalla completa con aislamiento de capas */
 .hero-wrap{
   position: relative;
-  min-height: 100svh; /* respeta barras móviles */
+  min-height: 100svh;
   width: 100%;
   overflow: clip;
-  display: grid; 
+  display: grid;
   place-items: center;
   isolation: isolate;
 }
 
-/* Video de fondo (fill y cover) */
 .hero-video{
-  position: absolute; 
+  position: absolute;
   inset: 0;
-  width: 100%; 
+  width: 100%;
   height: 100%;
-  object-fit: cover; 
+  object-fit: cover;
   object-position: center;
   filter: saturate(1.05) contrast(1.02);
   z-index: -3;
 }
 
-/* Gradiente radial tenue de color */
+/* Ambientación con la nueva paleta */
 .hero-grad-1{
-  position: absolute; 
-  inset: 0; 
+  position: absolute;
+  inset: 0;
   z-index: -2;
   background:
-    radial-gradient(1200px 180px at 0% 0%, rgba(255,140,0,.07), transparent 60%),
-    radial-gradient(1200px 180px at 100% 0%, rgba(255,0,128,.07), transparent 60%);
+    radial-gradient(1200px 180px at 0% 0%, color-mix(in oklab, var(--fire-2) 13%, transparent), transparent 60%),
+    radial-gradient(1200px 180px at 100% 0%, color-mix(in oklab, var(--fire-3) 13%, transparent), transparent 60%);
 }
 
 /* Velo vertical para legibilidad del texto */
 .hero-grad-2{
-  position: absolute; 
-  inset: 0; 
+  position: absolute;
+  inset: 0;
   z-index: -1;
   background: linear-gradient(
-    to bottom, 
-    rgba(0,0,0,.25) 0%, 
-    rgba(0,0,0,.45) 40%, 
+    to bottom,
+    rgba(0,0,0,.25) 0%,
+    rgba(0,0,0,.45) 40%,
     rgba(0,0,0,.65) 100%
   );
 }
 
-/* Contenido del hero; respeta la altura del topbar (definida en topbar.css) */
+/* Contenido del hero */
 .hero-inner{
   width: min(1200px, 92vw);
   margin-inline: auto;
   padding-top: calc(var(--topbar-h, 44px) + 120px);
   padding-bottom: 96px;
-  text-align: left; 
+  text-align: left;
   color: #fff;
 }
 
-/* Badge con glass suave */
+/* Badge glass */
 .hero-badge{
-  display:inline-flex; 
-  gap:.5rem; 
+  display:inline-flex;
+  gap:.5rem;
   align-items:center;
-  padding:.5rem .85rem; 
+  padding:.5rem .85rem;
   border-radius:999px;
   background: rgba(255,255,255,.06);
   border:1px solid rgba(255,255,255,.12);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  font-weight:600; 
+  font-weight:600;
   letter-spacing:.2px;
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
 }
 
-/* Título con gradiente animado */
+/* Título con gradiente fuego */
 .hero-title{
   margin-top: 16px;
   font-size: clamp(2.2rem, 4vw + 1rem, 4rem);
-  line-height: 1.07; 
+  line-height: 1.07;
   font-weight: 800;
 }
 .hero-title .g{
-  background: linear-gradient(90deg, #ffb057, #ff5ea8, #8b5cf6);
+  background: var(--fire-grad);
   background-size: 200% 100%;
-  -webkit-background-clip: text; 
-  background-clip: text; 
+  -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
   animation: hero-shine 8s linear infinite;
 }
@@ -146,138 +175,147 @@ p{ line-height: 1.6; }
   font-size: clamp(1rem, 1.2vw + .6rem, 1.2rem);
   margin: 14px 0 26px;
 }
-.hero-actions{ 
-  display:flex; 
-  flex-wrap:wrap; 
-  gap:14px 18px; 
-  align-items:center; 
+.hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px 18px;
+  align-items:center;
 }
 
-/* =========================
-   Botones principales / CTA
-   ========================= */
-
-/* Botón degradado sólido (primario) */
+/* Botón gradiente fuego (secundario visual) */
 .btn-grad{
-  position: relative; 
-  border: 0; 
-  outline: 0; 
+  position: relative;
+  border: 0;
+  outline: 0;
   cursor: pointer;
-  border-radius: 999px; 
+  border-radius: 999px;
   padding: .85rem 1.2rem;
-  font-weight: 700; 
+  font-weight: 700;
   color: #1a1a1a;
-  background: linear-gradient(90deg, var(--brand-grad-1), var(--brand-grad-2), var(--brand-grad-3));
-  box-shadow: 
-    0 8px 20px rgba(0,0,0,.35), 
+  background: var(--fire-grad);
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.35),
     0 0 0 1px rgba(255,255,255,.12) inset;
   transition: transform .15s ease, box-shadow .2s ease;
 }
-.btn-grad:hover{ 
-  transform: translateY(-1px); 
-  box-shadow: 0 10px 24px rgba(0,0,0,.4); 
+.btn-grad:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(0,0,0,.4);
 }
 .btn-grad:active{ transform: translateY(0); }
 
-/* CTA glass con borde cónico animado */
+/* Botón acento (principal/CTA) */
+.btn-accent{
+  position: relative;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: .9rem 1.3rem;
+  font-weight: 800;
+  color: var(--on-accent);
+  background: var(--accent);
+  box-shadow:
+    0 8px 28px rgba(0,0,0,.35),
+    0 0 0 1px rgba(255,255,255,.10) inset;
+  transition: transform .15s ease, filter .2s ease;
+}
+.btn-accent:hover{ filter: brightness(1.05); transform: translateY(-1px); }
+.btn-accent:active{ transform: translateY(0); background: var(--accent-600); }
+
+/* CTA glass con borde cónico que usa fuego */
 .cta-neo{
-  --b: 2px; 
-  --r: 999px; 
+  --b: 2px;
+  --r: 999px;
   --glow: rgba(255,110,80,.35);
-  position: relative; 
-  display: inline-grid; 
+  position: relative;
+  display: inline-grid;
   place-items: center;
-  border: 0; 
-  outline: 0; 
-  cursor: pointer; 
+  border: 0;
+  outline: 0;
+  cursor: pointer;
   border-radius: var(--r);
-  padding: .9rem 1.3rem; 
-  color: #fff; 
+  padding: .9rem 1.3rem;
+  color: #fff;
   font-weight: 700;
   background: rgba(255,255,255,.06);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  box-shadow: 
-    inset 0 0 0 1px rgba(255,255,255,.08), 
-    0 8px 28px rgba(0,0,0,.35), 
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.08),
+    0 8px 28px rgba(0,0,0,.35),
     0 0 0 0 var(--glow);
   transition: transform .18s ease, box-shadow .25s ease;
-  overflow: hidden; 
+  overflow: hidden;
   isolation: isolate;
 }
 .cta-neo::before{
-  content:""; 
-  position:absolute; 
-  inset:0; 
+  content:"";
+  position:absolute;
+  inset:0;
   border-radius: var(--r);
   padding: var(--b);
-  background: conic-gradient(
-    from 0deg, 
-    var(--brand-grad-1), 
-    var(--brand-grad-2), 
-    var(--brand-grad-3), 
-    var(--brand-grad-1)
-  );
-  -webkit-mask: 
-    linear-gradient(#000 0 0) content-box, 
+  background: conic-gradient(from 0deg, var(--fire-1), var(--fire-2), var(--fire-3), var(--fire-4), var(--fire-1));
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor; 
+  -webkit-mask-composite: xor;
   mask-composite: exclude;
-  animation: cta-spin 6s linear infinite; 
-  opacity:.9; 
+  animation: cta-spin 6s linear infinite;
+  opacity:.9;
   z-index: -1;
 }
 @keyframes cta-spin{ to{ transform: rotate(360deg); } }
 
 .cta-neo::after{
-  content:""; 
-  position:absolute; 
+  content:"";
+  position:absolute;
   inset:-150% -80%;
   background: linear-gradient(55deg, transparent 35%, rgba(255,255,255,.12) 50%, transparent 65%);
-  transform: translateX(-20%); 
-  animation: cta-sweep 4s ease-in-out infinite; 
+  transform: translateX(-20%);
+  animation: cta-sweep 4s ease-in-out infinite;
   z-index: -1;
 }
 @keyframes cta-sweep{
   0%,100%{transform:translateX(-20%)}
   50%{transform:translateX(20%)}
 }
-.cta-neo .inner{ 
-  display:inline-flex; 
-  align-items:center; 
-  gap:.65rem; 
-  letter-spacing:.2px; 
+.cta-neo .inner{
+  display:inline-flex;
+  align-items:center;
+  gap:.65rem;
+  letter-spacing:.2px;
 }
 .cta-neo .label{
   background: linear-gradient(90deg, #fff, #ffe5d0, #fff);
-  -webkit-background-clip:text; 
-  background-clip:text; 
+  -webkit-background-clip:text;
+  background-clip:text;
   color:transparent;
 }
-.cta-neo .arrow{ 
-  width: 1.1rem; 
-  height: 1.1rem; 
-  transition: transform .18s ease; 
+.cta-neo .arrow{
+  width: 1.1rem;
+  height: 1.1rem;
+  transition: transform .18s ease;
 }
 .cta-neo:hover .arrow{ transform: translateX(3px); }
-.cta-neo:hover{ 
-  transform: translateY(-1px); 
-  box-shadow: 
-    inset 0 0 0 1px rgba(255,255,255,.1), 
-    0 10px 30px rgba(0,0,0,.4), 
-    0 0 0 10px var(--glow); 
+.cta-neo:hover{
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.1),
+    0 10px 30px rgba(0,0,0,.4),
+    0 0 0 10px var(--glow);
 }
 
-/* Ripple del CTA (inyectado por JS) */
+/* Ripple del CTA */
 .cta-neo .ripple{
-  position:absolute; 
-  border-radius:50%; 
+  position:absolute;
+  border-radius:50%;
   transform: translate(-50%, -50%);
-  pointer-events:none; 
-  width: 12px; 
+  pointer-events:none;
+  width: 12px;
   height: 12px;
   background: radial-gradient(circle at center, rgba(255,255,255,.6), transparent 60%);
-  animation: cta-rip .6s ease-out forwards; 
+  animation: cta-rip .6s ease-out forwards;
   mix-blend-mode: screen;
 }
 @keyframes cta-rip{
@@ -287,8 +325,8 @@ p{ line-height: 1.6; }
 
 /* Ajustes responsive del hero */
 @media (max-width: 991.98px){
-  .hero-inner{ 
-    padding-top: calc(var(--topbar-h, 44px) + 100px); 
-    padding-bottom: 80px; 
+  .hero-inner{
+    padding-top: calc(var(--topbar-h, 44px) + 100px);
+    padding-bottom: 80px;
   }
 }

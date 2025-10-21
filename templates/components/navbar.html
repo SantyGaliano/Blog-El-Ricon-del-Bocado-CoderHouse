@@ -4,8 +4,8 @@
     <!-- Marca -->
     <a class="navbar-brand p-0" href="{% url 'home' %}">
       <img
-        src="{% static 'images/El Rincón Del Bocado.png' %}"
-        alt="El Rincón Del Bocado"
+        src="{% static 'images/White.png' %}"
+        alt="El Rincón del Bocado"
         class="brand-logo"
       />
     </a>
@@ -43,7 +43,14 @@
             role="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-          >Recetas</a>
+          >
+            Recetas
+            <span class="nav-caret" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
 
           <div class="dropdown-menu mega-menu mega-recipes p-0 border-0" aria-labelledby="nav-recipes-btn">
             <div class="mega-card">
@@ -51,14 +58,13 @@
               <div class="mega-topline"></div>
 
               <div class="row g-4">
-                <!-- IZQUIERDA: categorías (5 cols) -->
+                <!-- IZQUIERDA: categorías -->
                 <div class="col-12 col-lg-5">
                   <div class="section-title">
                     <span class="title-bar"></span><h3>Categorías</h3>
                   </div>
 
                   <div class="row g-2">
-                    <!-- 1 -->
                     <div class="col-6">
                       <a href="{% url 'recipe-list' %}" class="card-mini group">
                         <span class="mini-ico">🍲</span>
@@ -69,7 +75,6 @@
                         <span class="mini-arrow">→</span>
                       </a>
                     </div>
-                    <!-- 2 -->
                     <div class="col-6">
                       <a href="{% url 'recipe-list' %}" class="card-mini group">
                         <span class="mini-ico">🍕</span>
@@ -80,7 +85,6 @@
                         <span class="mini-arrow">→</span>
                       </a>
                     </div>
-                    <!-- 3 -->
                     <div class="col-6">
                       <a href="{% url 'recipe-list' %}" class="card-mini group">
                         <span class="mini-ico">🌮</span>
@@ -91,7 +95,6 @@
                         <span class="mini-arrow">→</span>
                       </a>
                     </div>
-                    <!-- 4 -->
                     <div class="col-6">
                       <a href="{% url 'recipe-list' %}" class="card-mini group">
                         <span class="mini-ico">🍰</span>
@@ -102,7 +105,6 @@
                         <span class="mini-arrow">→</span>
                       </a>
                     </div>
-                    <!-- 5 -->
                     <div class="col-6">
                       <a href="{% url 'recipe-list' %}" class="card-mini group">
                         <span class="mini-ico">☕</span>
@@ -113,7 +115,6 @@
                         <span class="mini-arrow">→</span>
                       </a>
                     </div>
-                    <!-- 6 -->
                     <div class="col-6">
                       <a href="{% url 'recipe-list' %}" class="card-mini group">
                         <span class="mini-ico">🥐</span>
@@ -127,20 +128,18 @@
                   </div>
                 </div>
 
-                <!-- SEPARADOR (1 col) -->
+                <!-- SEPARADOR -->
                 <div class="col-lg-1 d-none d-lg-flex align-items-stretch justify-content-center">
                   <div class="v-sep"></div>
                 </div>
 
-                <!-- DERECHA: colecciones + destacadas (6 cols) -->
+                <!-- DERECHA: colecciones + destacadas -->
                 <div class="col-12 col-lg-6">
-                  <!-- Colecciones -->
                   <div class="section-title">
                     <span class="title-bar alt"></span><h3>Colecciones especiales</h3>
                   </div>
 
                   <div class="row g-2 mb-3">
-                    <!-- Rápidas -->
                     <div class="col-6">
                       <a href="{% url 'recipe-list' %}" class="card-collection group">
                         <div class="col-ico">⚡</div>
@@ -150,7 +149,6 @@
                         </div>
                       </a>
                     </div>
-                    <!-- Populares -->
                     <div class="col-6">
                       <a href="{% url 'recipe-list' %}" class="card-collection group">
                         <div class="col-ico">📈</div>
@@ -160,7 +158,6 @@
                         </div>
                       </a>
                     </div>
-                    <!-- Saludables -->
                     <div class="col-6">
                       <a href="{% url 'recipe-list' %}" class="card-collection group">
                         <div class="col-ico">🥗</div>
@@ -170,7 +167,6 @@
                         </div>
                       </a>
                     </div>
-                    <!-- Premiadas -->
                     <div class="col-6">
                       <a href="{% url 'recipe-list' %}" class="card-collection group">
                         <div class="col-ico">🏅</div>
@@ -182,14 +178,12 @@
                     </div>
                   </div>
 
-                  <!-- Destacadas -->
                   <div class="section-title mb-2">
                     <span class="title-bar gold"></span><h3>Destacadas</h3>
                     <a href="{% url 'recipe-list' %}" class="see-all">Ver todas →</a>
                   </div>
 
                   <div class="row g-2">
-                    <!-- Tacos -->
                     <div class="col-4">
                       <a href="{% url 'recipe-list' %}" class="card-featured group">
                         <div class="feat-img">
@@ -202,7 +196,6 @@
                         </div>
                       </a>
                     </div>
-                    <!-- Carbonara -->
                     <div class="col-4">
                       <a href="{% url 'recipe-list' %}" class="card-featured group">
                         <div class="feat-img">
@@ -215,7 +208,6 @@
                         </div>
                       </a>
                     </div>
-                    <!-- Sushi -->
                     <div class="col-4">
                       <a href="{% url 'recipe-list' %}" class="card-featured group">
                         <div class="feat-img">
@@ -245,7 +237,14 @@
             role="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-          >Nosotros</a>
+          >
+            Nosotros
+            <span class="nav-caret" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
 
           <div class="dropdown-menu mega-menu mega-about p-0 border-0" aria-labelledby="nav-about-btn">
             <div class="mega-card small">
