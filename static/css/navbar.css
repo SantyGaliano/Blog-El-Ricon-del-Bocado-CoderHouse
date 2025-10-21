@@ -57,7 +57,7 @@
   align-items: center;
 }
 
-/* Links e indicador inferior (paleta nueva) */
+/* Links e indicador inferior (paleta fuego) */
 .modern-link{
   position: relative;
   font-weight: 600;
@@ -86,60 +86,101 @@
   transform: scaleX(1);
 }
 
-/* Caret en items con dropdown */
+/* Icono en enlaces simples (ej. Iniciar sesión) */
+.nav-ico{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:1rem;
+  height:1rem;
+  margin-right:.35rem;
+  line-height:0;
+  opacity:.95;
+  transition: opacity .2s ease, transform .18s ease;
+  transform: translateY(1px); /* alineación óptica */
+}
+@media (hover: hover){
+  .modern-link:hover .nav-ico{ opacity:1; }
+}
+
+/* Caret en items con dropdown (chevron-down) */
 .nav-caret{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  width: .9rem;
-  height: .9rem;
-  margin-left: .35rem;
-  opacity: .9;
+  width:.9rem;
+  height:.9rem;
+  margin-left:.35rem;
+  opacity:.9;
   transition: transform .18s ease, opacity .2s ease;
-  line-height: 0;
+  line-height:0;
+  transform: translateY(1px); /* alineación con baseline del texto */
 }
-.nav-link.show .nav-caret{ transform: rotate(180deg); }
+.nav-link.show .nav-caret{ transform: translateY(1px) rotate(180deg); }
 @media (hover: hover){
-  .modern-link:hover .nav-caret{ opacity: 1; }
+  .modern-link:hover .nav-caret{ opacity:1; }
 }
 
-/* Avatar */
-.avatar-nav{
-  width: 28px; height: 28px; border-radius: 50%; object-fit: cover;
+/* ===========================
+   Mega menús (centrado real)
+   =========================== */
+
+/* Contenedor Bootstrap del dropdown: sin borde, sin fondo, sin sombra */
+.dropdown-menu.mega-menu{
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0; /* refuerzo, ya viene p-0 en HTML */
 }
 
-/* Mega menus */
+/* Base del mega: visibilidad y fade */
 .mega-menu{
-  display:block; /* Bootstrap alterna .show */
-  visibility:hidden; opacity:0; transform: translateY(6px) scale(.98);
-  transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s;
-  left:50%; transform-origin: top center;
-}
-.dropdown.show > .mega-menu{
-  visibility:visible; opacity:1; transform: translateY(0) scale(1);
-  transition: opacity .18s ease, transform .18s ease;
+  position: absolute;
+  display:block;
+  visibility:hidden;
+  opacity:0;
+  transition: opacity .18s ease, visibility 0s linear .18s;
+  transform-origin: top center;
+  left: auto; right: auto;
 }
 
-/* Dimensiones y centrado */
+/* Recetas: centrado respecto al viewport y animación manteniendo translateX(-50%) */
 .mega-recipes{
   width: 900px;
   margin-top: 8px;
   left:50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, 6px) scale(.98);
+  transition: transform .18s ease;
 }
+
+/* Nosotros: centrado igual */
 .mega-about{
   width: 320px;
   margin-top: 8px;
   left:50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, 6px) scale(.98);
+  transition: transform .18s ease;
 }
 
-/* Tarjeta base */
+/* Mostrar: sólo opacidad en el contenedor */
+.dropdown.show > .mega-menu{
+  visibility:visible;
+  opacity:1;
+  transition: opacity .18s ease;
+}
+
+/* Mostrar: animación Y/escala en panel, manteniendo centrado */
+.dropdown.show > .mega-recipes,
+.dropdown.show > .mega-about{
+  transform: translate(-50%, 0) scale(1);
+}
+
+/* Tarjeta interna del mega: sin borde; la sombra define el panel */
 .mega-card{
   position: relative;
   overflow: hidden;
   border-radius: 16px;
-  border: 1px solid var(--border);
+  border: 0 !important;           /* quita cualquier borde visible */
   background: rgba(18,18,20,.95);
   backdrop-filter: blur(18px);
   box-shadow: 0 24px 60px rgba(0,0,0,.55);
@@ -147,7 +188,7 @@
 }
 .mega-card.small{ padding: 12px; }
 
-/* Ambientación con paleta nueva */
+/* Ambientación */
 .mega-bg{
   position: absolute; inset:0;
   background: var(--fire-ambient);
@@ -264,6 +305,17 @@
   }
 
   .primary-nav{ position: static; transform:none; }
+
+  /* En mobile: centrado y animación coherente */
+  .mega-recipes,
+  .mega-about{
+    left:50%;
+    transform: translate(-50%, 6px) scale(.98);
+  }
+  .dropdown.show > .mega-recipes,
+  .dropdown.show > .mega-about{
+    transform: translate(-50%, 0) scale(1);
+  }
 
   .modern-link::after{
     bottom:0;
